@@ -1,21 +1,26 @@
-# Livy and Zeppelin for Cloudera Manager and CDH
+# Livy y Zeppelin para Cloudera Manager and CDH.
 
-This git repository is used to build both CSDs and parcels for CDH.
+Recuerda que Zeppelin 0.7 no reconoce a Spark 2.3, para la ultima versión de Spark necesitas Zeppelin 0.8
 
-It can run multiple Livy instances (one for Spark and one for Spark2), and will run a Zeppelin instance that runs a Livy interpreter for each Livy instance and a markdown interpreter.
+Este repositorio de git es usando para construir el CSD y parcel de zeppelin para Cloudera Manager
 
-Both Livy and Zeppelin will run as services in Cloudera Manager, and their configuration is maintained through the CM web UI.
+Pueden correr multiples instancias de Livy (una para Spark y otra para Spark2), y esto podrá correr en una instancia de Zeppelin que utilice a Livy como interprete.
 
-This will work in a secure (Kerberos-enabled) environment.
+Tanto Livy como Zeppelin funcionarán como servicios en Cloudera manager, y sus configuraciones estarán disponibles a través de Cloudera Manager UI
+
+Esto puede trabajar bajo un ambiente kerberizado.
 
 This has been tested on CDH 5.12.1.
 
-## Build and Installation
+## Construcción e instalación
 
-Attached to the repository releases are prebuilt CSDs and Parcels for both Livy and Zeppelin.
-You might be able to use the Github release URLs as parcel repositories in CM (e.g. `https://github.com/bushnoh/livy_zeppelin_cdh_csd_parcels/releases/download/Livy-0.4.0-v0.1/`) however I have not tested if this works. 
+En este repositorio estan pre-construidos los CSD y parcel para Livy y Zeppelin.
+Para contruir el CSD y Parcel debes hacer un clone de este proyecto
 
-To build the CSDs and Parcels yourself, you can run the build script:
+````sh
+git clone URL
+`````
+Y luego ejecutar:
 
 ```
 #Build the Parcel files, this make take some time
@@ -24,6 +29,19 @@ sh build.sh parcel
 #Build the CSDs
 sh build.sh csd
 ```
+
+## Instalación en Cloudera.
+
+Lo primero que debes hacer es copiar el CSD en la carpeta /opt/cloudera/csd
+
+`````sh
+sudo cp $GIT_PROJECT/ZEPPELIN-0.8.0.jar /opt/cloudera/csd
+sudo chown cloudera-scm:cloudera-scm /opt/cloudera/csd/ZEPPELIN-0.8.0.jar
+sudo chmod 644 /opt/cloudera/csd/ZEPPELIN-0.8.0.jar
+sudo service cloudera-scm-server restart
+
+```````   
+
 
 Information about installing custom services can be found at [https://www.cloudera.com/documentation/enterprise/latest/topics/cm_mc_addon_services.html](https://www.cloudera.com/documentation/enterprise/latest/topics/cm_mc_addon_services.html).
 
