@@ -36,16 +36,65 @@ Lo primero que debes hacer es copiar el CSD en la carpeta /opt/cloudera/csd
 
 `````sh
 sudo cp $GIT_PROJECT/ZEPPELIN-0.8.0.jar /opt/cloudera/csd
+sudo cp $GIT_PROJECT/LIVY-0.5.0.jar /opt/cloudera/csd
 sudo chown cloudera-scm:cloudera-scm /opt/cloudera/csd/ZEPPELIN-0.8.0.jar
+sudo chown cloudera-scm:cloudera-scm /opt/cloudera/csd/LIVY-0.5.0.jar
 sudo chmod 644 /opt/cloudera/csd/ZEPPELIN-0.8.0.jar
+sudo chmod 644 /opt/cloudera/csd/LIVY-0.5.0.jar
 sudo service cloudera-scm-server restart
 
 ```````   
+
+Debemos tener instalado un servidor apache en un servidor, en mi caso lo instalare en un servidor llamado nodo1 sobre centos 7.
+
+````sh
+sudo yum install httpd
+sudo systemctl start httpd
+
+```````
+
+Ahora debemos crear una carpeta en la ruta pública del servidor apache
+
+````sh
+sudo mkdir /var/www/html/zeppelin08
+sudo mkdir /var/www/html/livy05
+
+``````
+
+Y copiar el parcel y manifest a esa carpeta
+
+`````ssh
+sudo cp $GIT_PROJECT/ZEPPELIN-0.8.0_build/*  /var/www/html/zeppelin08
+sudo cp $GIT_PROJECT/LIVY-0.5.0_build/*  /var/www/html/livy05
+
+```````   
+
+Deberíamos poder acceder a los archivos mediante la ruta:
+
+http://nodo1/zeppelin08/
+
+Ahora en Cloudera Manager vamos a parcels ==> Configuration ==> Remote Parcel Repository URLs 
+
+Y agregamos la nueva URL http://nodo1/zeppelin08/ y http://nodo1/livy05/
+
+Al dar click en "Check for new parcels", debería listarse nuestro Zeppelin y Livy.
+
+Finalmente queda presionar "Download"=>Distribute=>Unpacked=>Activate
+
+
+## Agregar el servicio de Zeppelin.
+
+Para poder agregar el servicio de Zeppelin, es necesario que el parcel se haya instalado.
+
+Add service ==> ZEPPELIN ==> Seleccionar el Host ==> Next ==> Finish
 
 
 Information about installing custom services can be found at [https://www.cloudera.com/documentation/enterprise/latest/topics/cm_mc_addon_services.html](https://www.cloudera.com/documentation/enterprise/latest/topics/cm_mc_addon_services.html).
 
 ## Configuration
+
+Para iniciar
+
 
 ### Kerberos
 
