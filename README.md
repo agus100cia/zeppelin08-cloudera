@@ -1,5 +1,7 @@
 # Livy y Zeppelin para Cloudera Manager and CDH.
 
+Referencia: https://github.com/alexjbush/livy_zeppelin_cdh_csd_parcels
+
 
 Recuerda que Zeppelin 0.7 no reconoce a Spark 2.3, para la ultima versión de Spark necesitas Zeppelin 0.8
 
@@ -142,6 +144,10 @@ sudo mkdir -p /var/local/zeppelin
 chown zeppelin:zeppelin /var/local/zeppelin
 
 `````` 
+
+
+Referencia de los errores: 
+https://blog.csdn.net/weixin_43215250/article/details/90406780
 
 
 Information about installing custom services can be found at [https://www.cloudera.com/documentation/enterprise/latest/topics/cm_mc_addon_services.html](https://www.cloudera.com/documentation/enterprise/latest/topics/cm_mc_addon_services.html).
