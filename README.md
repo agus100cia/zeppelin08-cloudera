@@ -1,5 +1,6 @@
 # Livy y Zeppelin para Cloudera Manager and CDH.
 
+
 Recuerda que Zeppelin 0.7 no reconoce a Spark 2.3, para la ultima versión de Spark necesitas Zeppelin 0.8
 
 Este repositorio de git es usando para construir el CSD y parcel de zeppelin para Cloudera Manager
@@ -82,11 +83,65 @@ Al dar click en "Check for new parcels", debería listarse nuestro Zeppelin y Li
 Finalmente queda presionar "Download"=>Distribute=>Unpacked=>Activate
 
 
+## Agregar el servicio de Livy.
+
+Livy es un servicio de Apache que publica el SparkSession en forma de un servicio web REST, esto es imprescindible para que trabaje con Zeppelin.
+
+Para agregar el servicio:
+
+Add service ==> Livy ==> Seleccionar el Host ==> Gateway en el mismo host ==> Next ==> Finish
+
+#### Error1: Aquí seguramente se presentará un error:
+
+`````sh
+Error found before invoking supervisord: 'getpwnam(): Name not found livy'
+
+````````    
+
+#### Solución Error 1:
+
+`````sh
+groupadd livy
+useradd livy -g livy
+
+``````
+
 ## Agregar el servicio de Zeppelin.
 
 Para poder agregar el servicio de Zeppelin, es necesario que el parcel se haya instalado.
 
 Add service ==> ZEPPELIN ==> Seleccionar el Host ==> Next ==> Finish
+
+
+### Error2: 
+
+`````sh
+
+java.lang.IllegalArgumentException: The variable [${zeppelin_java_options}] does not have a correspondin
+
+``````  
+
+### Solución Error 2:
+
+Ir a Cloudera Manager ==> Zeppelin ==> Configuration ==> Buscar zeppelin_java_options
+
+Colocar el valor : -Xms1024m
+
+
+### Error 3:
+
+`````sh
+mkdir: `file:///var/local/zeppelin/conf': Input/output error
+
+`````` 
+
+### Solución error 3:
+
+``````sh
+sudo mkdir -p /var/local/zeppelin
+chown zeppelin:zeppelin /var/local/zeppelin
+
+`````` 
 
 
 Information about installing custom services can be found at [https://www.cloudera.com/documentation/enterprise/latest/topics/cm_mc_addon_services.html](https://www.cloudera.com/documentation/enterprise/latest/topics/cm_mc_addon_services.html).
