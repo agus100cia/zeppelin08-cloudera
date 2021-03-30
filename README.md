@@ -230,3 +230,12 @@ The following features are tested:
 
 The following features have not been tested:
 * SSL on Livy for SSL communication between Zeppelin and Livy
+
+
+## Colas YARN en Zeppelin.
+
+En el interpreter livy de zeppelin se debe agregar esta propiedad
+
+```sh
+livy.spark.yarn.queue=name
+``` 
