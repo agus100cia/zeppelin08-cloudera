@@ -239,3 +239,32 @@ En el interpreter livy de zeppelin se debe agregar esta propiedad
 ```sh
 livy.spark.yarn.queue=name
 ``` 
+
+
+## Autenticacion Basica
+
+Debe modificar el archivo shiro.ini
+
+Cloudera Manager => ZEPPELIN => Configuration => Search 'shiro' (Search Box)
+
+1.- Habilitar Shiro Enabled
+2.- Modificar Zeppelin Server Advanced Configuration Snippet (Safety Valve) for zeppelin-conf/shiro.ini
+
+```xml
+
+[users]
+# List of users with their password allowed to access Zeppelin.
+# To use a different strategy (LDAP / Database / ...) check the shiro doc at http://shiro.apache.org/configuration.html
+#Configuration-INISections
+admin = admin
+user1=user1pwd
+user2=user2pwd
+
+[urls]
+# anon means the access is anonymous.
+# authcBasic means Basic Auth Security
+# To enfore security, comment the line below and uncomment the next one /api/version = anon
+#/** = anon
+/** = authcBasic
+
+``` 
